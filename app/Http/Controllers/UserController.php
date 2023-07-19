@@ -6,6 +6,7 @@ use App\Models\User;
 use Twilio\Rest\Client;
 use App\Http\Requests\ConnexionRequest;
 use App\Http\Requests\VerifyUserRequest;
+use App\Http\Requests\verificationCodeRequest;
 
 class UserController extends Controller
 {
@@ -89,5 +90,9 @@ class UserController extends Controller
     public function code()
     {
         return view('qrcode.code');
+    }
+
+    public function verification(verificationCodeRequest $request){
+
     }
 }
