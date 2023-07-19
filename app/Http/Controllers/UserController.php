@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Twilio\Rest\Client;
 use Endroid\QrCode\QrCode;
+use Illuminate\Support\Str;
 use App\Http\Requests\ConnexionRequest;
 use App\Http\Requests\VerifyUserRequest;
+use Endroid\QrCode\Writer\PngWriter;
+
 
 
 class UserController extends Controller
@@ -46,10 +49,7 @@ class UserController extends Controller
         return view('user.connexion');
     }
 
-    public function vucodeQr()
-    {
-        return view('qrcode.qrcode');
-    }
+
 
     public function store(ConnexionRequest $request)
     {
@@ -61,22 +61,20 @@ class UserController extends Controller
 
         // Générer le code QR
         $data = rand(1000, 99999);
-        $qrCode = new QrCode($data);
-        $qrCode->setSize(400);
-        $qrCode->setMargin(20);
 
         // Stocker les informations dans la session
         session()->put('qr_code_data', $data);
-        session()->put('qr_code_image', $qrCode);
         session()->put('Telephone', $verify->telephone);
 
         return redirect('qrcode/qrcode');
     }
 
+
     public function scanQrCode()
     {
         return view('qrcode.scan');
     }
+
 
     public function sendMessage()
     {
