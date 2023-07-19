@@ -92,7 +92,17 @@ class UserController extends Controller
         return view('qrcode.code');
     }
 
-    public function verification(verificationCodeRequest $request){
+    public function verificationCode(VerificationCodeRequest $request)
+    {
+        $codeUser = $request->code;
+        $dataCode = session('qr_code_data');
 
+        if ($codeUser !== $dataCode) {
+            return view('qrcode/code',['error' =>'Le code de vérification n\'est pas valide']);
+        }
+
+        return redirect('accueil');
     }
+
+
 }
