@@ -4,17 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Twilio\Rest\Client;
-use Endroid\QrCode\QrCode;
-use Illuminate\Support\Str;
 use App\Http\Requests\ConnexionRequest;
 use App\Http\Requests\VerifyUserRequest;
-use Endroid\QrCode\Writer\PngWriter;
-
-
 
 class UserController extends Controller
 {
-    // Définition de la fonction pour afficher la page Inscription
     public function vueinscription()
     {
         return view('user.inscription');
@@ -49,8 +43,6 @@ class UserController extends Controller
         return view('user.connexion');
     }
 
-
-
     public function store(ConnexionRequest $request)
     {
         $verify = User::where('telephone', $request->input('Telephone'))->first();
@@ -66,41 +58,36 @@ class UserController extends Controller
         session()->put('qr_code_data', $data);
         session()->put('Telephone', $verify->telephone);
 
+        try {
+            // Envoyer le message à l'utilisateur
+            $account_sid = getenv("TWILIO_SID");
+            $auth_token = getenv("TWILIO_AUTH_TOKEN");
+            $twilio_number = getenv("TWILIO_NUMBER");
+
+            $client = new Client($account_sid, $auth_token);
+
+            // Utilisez $verify->telephone comme destinataire (to) pour le message
+            $message = $client->messages->create(
+                $verify->telephone,
+                [
+                    'from' => $twilio_number,
+                    'body' => $data,
+                ]
+            );
+        } catch (\Exception $e) {
+            // Gérer l'exception ici (par exemple, journalisation, affichage d'un message d'erreur, etc.)
+            return view('user.connexion', ['error' => 'Erreur lors de l\'envoi du message Twilio']);
+        }
+
         return redirect('qrcode/qrcode');
     }
 
-    public function code(){
-        return view("qrcode.code");
-    }
-
-    public function scanQrCode()
-    {
+    public function scanQrCode(){
         return view('qrcode.scan');
     }
 
-
-    public function sendMessage()
+    public function code()
     {
-        $data = session('qr_code_data');
-        // Envoyer le message à l'utilisateur
-        $twilioSid = 'YOUR_TWILIO_SID';
-        $twilioToken = 'YOUR_TWILIO_AUTH_TOKEN';
-        $twilioFromNumber = User::where('telephone', session('Telephone'))->first()->telephone;
-        $userPhoneNumber = 'USER_PHONE_NUMBER';
-
-        $client = new Client($twilioSid, $twilioToken);
-        $message = $client->messages->create(
-            $userPhoneNumber,
-            [
-                'from' => $twilioFromNumber,
-                'body' => $data,
-            ]
-        );
-
-        // Effacer les informations de la session
-        session()->forget('qr_code_data');
-        session()->forget('qr_code_image');
-
-        return redirect('accueil');
+        return view('qrcode.code');
     }
 }
