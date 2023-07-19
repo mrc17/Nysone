@@ -24,14 +24,14 @@ class verificationCodeRequest extends FormRequest
         return [
             //Customisation des valideurs
 
-            'code'=>'required'
+            'Code'=>'required'
         ];
     }
 
     public function messages()
     {
         return[
-            'code.required'=>'Le code Verication est obligatoire',
+            'Code.required'=>'Le code Verication est obligatoire',
         ];
     }
 }
