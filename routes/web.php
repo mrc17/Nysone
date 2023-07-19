@@ -22,4 +22,5 @@ Route::get('user/confirmation', [UserController::class,'vueconfirmation']);
 Route::get('user/connexion', [UserController::class,'vueconnexion'])->name('connexion');
 Route::post('user/store',[UserController::class,'store'])->name('store');
 Route::get('qrcode/qrcode', [UserController::class, 'scanQrCode'])->name('scan-qr-code');
-Route::get('send-message', [UserController::class, 'sendMessage'])->name('send-message');
+Route::get('qrcode/code',[UserController::class,'code'])->name('code');
+Route::post('send-message', [UserController::class, 'sendMessage'])->name('send-message');
