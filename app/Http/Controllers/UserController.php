@@ -69,6 +69,9 @@ class UserController extends Controller
         return redirect('qrcode/qrcode');
     }
 
+    public function code(){
+        return view("qrcode.code");
+    }
 
     public function scanQrCode()
     {
