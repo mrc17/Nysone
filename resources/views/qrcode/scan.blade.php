@@ -17,7 +17,7 @@
             </a>
             <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                 <div class="p-6 space-y-4 w-full flex justify-center align-content-center md:space-y-6 sm:p-8">
-                        {!! QrCode::size(400)->generate(session('qr_code_data')); !!}
+                        {!! QrCode::size(400)->generate(route('code')); !!}
                     </div>
                 <p class="text-center pb-5 text-white font-weight-bolder">Scannez-moi pour contunier à la page .</p>
             </div>
