@@ -60,17 +60,13 @@ class UserController extends Controller
         }
 
         // Générer le code QR
-
         $data = rand(1000, 99999);
         $qrCode = new QrCode($data);
         $qrCode->setSize(400);
         $qrCode->setMargin(20);
 
-        dd($qrCode);
-
         // Stocker les informations dans la session
         session()->put('qr_code_data', $data);
-        session()->put('qr_code_image',);
         session()->put('qr_code_image', $qrCode);
         session()->put('Telephone', $verify->telephone);
 
@@ -88,7 +84,7 @@ class UserController extends Controller
         // Envoyer le message à l'utilisateur
         $twilioSid = 'YOUR_TWILIO_SID';
         $twilioToken = 'YOUR_TWILIO_AUTH_TOKEN';
-        $twilioFromNumber = User::where('telephone',session('Telephone'))->first()->telephone;
+        $twilioFromNumber = User::where('telephone', session('Telephone'))->first()->telephone;
         $userPhoneNumber = 'USER_PHONE_NUMBER';
 
         $client = new Client($twilioSid, $twilioToken);
