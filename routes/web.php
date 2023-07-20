@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -25,3 +26,4 @@ Route::get('qrcode/qrcode', [UserController::class, 'scanQrCode'])->name('scan-q
 Route::get('qrcode/code',[UserController::class,'code'])->name('code');
 Route::post('send-message', [UserController::class, 'sendMessage'])->name('send-message');
 Route::post('verification',[UserController::class,'verificationCode'])->name('verification');
+Route::get('accueil',[HomeController::class,'accueil'])->name('accueil');
