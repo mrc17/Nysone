@@ -18,6 +18,9 @@
                     <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                         Connexion
                     </h1>
+                    @isset($error)
+                    <p class="text-red-500">{{ $error }}</p>
+                    @endisset($error)
                     @if( $errors->any() )
                     @foreach ($errors->all() as $error)
                     <p class="text-red-500">{{ $error }}</p>
