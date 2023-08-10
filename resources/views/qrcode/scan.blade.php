@@ -19,7 +19,7 @@
                 <div class="p-6 space-y-4 w-full flex justify-center align-content-center md:space-y-6 sm:p-8">
                     {!! QrCode::size(400)->generate(route('code')); !!}
                 </div>
-                <p class="text-center pb-5 text-white font-weight-bolder">Scannez-moi pour contunier à la page .</p>
+                <p class="text-center pb-5 text-white font-weight-bolder">Scannez-moi pour continuer à la page .</p>
             </div>
         </div>
     </section>
