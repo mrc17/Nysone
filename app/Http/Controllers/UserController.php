@@ -52,14 +52,24 @@ class UserController extends Controller
             return view('user.connexion', ['error' => 'Le numéro n\'existe pas']);
         }
 
+        session()->put('Telephone', $verify->telephone);
+
+        return redirect('qrcode/qrcode');
+    }
+
+    public function scanQrCode(){
+
         // Générer le code QR
         $data = rand(1000, 99999);
 
         // Stocker les informations dans la session
         session()->put('qr_code_data', $data);
-        session()->put('Telephone', $verify->telephone);
 
-        try {
+        $telephone=session('Telephone');
+
+       // dd($telephone);
+
+        /* try {
             // Envoyer le message à l'utilisateur
             $account_sid = getenv("TWILIO_SID");
             $auth_token = getenv("TWILIO_AUTH_TOKEN");
@@ -68,8 +78,8 @@ class UserController extends Controller
             $client = new Client($account_sid, $auth_token);
 
             // Utilisez $verify->telephone comme destinataire (to) pour le message
-            $message = $client->messages->create(
-                $verify->telephone,
+                $message = $client->messages->create(
+                $telephone,
                 [
                     'from' => $twilio_number,
                     'body' => $data,
@@ -79,11 +89,7 @@ class UserController extends Controller
             // Gérer l'exception ici (par exemple, journalisation, affichage d'un message d'erreur, etc.)
             return view('user.connexion', ['error' => 'Erreur lors de l\'envoi du message Twilio']);
         }
-
-        return redirect('qrcode/qrcode');
-    }
-
-    public function scanQrCode(){
+ */
         return view('qrcode.scan');
     }
 
